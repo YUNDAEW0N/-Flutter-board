@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                 .then((_) => Navigator.pushNamed(context, "/"));
           } on FirebaseAuthException catch (e) {
             if (e.code == 'user-not-found') {
-              debugPrint(e.code);
+              print(e.code);
               if (context.mounted) {
                 showDialog(
                     context: context,
