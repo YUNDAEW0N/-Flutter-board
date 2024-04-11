@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBVPJl7g-RDjxB7OXxiayAPjCsRpnf8Jjk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>392419754101</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.ydwBorder.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>ydwborder</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ydwborder.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:392419754101:ios:11fea0a8a3be994bd0783c</string>
+</dict>
+</plist>

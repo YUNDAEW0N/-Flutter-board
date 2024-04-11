@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "392419754101",
+    "project_id": "ydwborder",
+    "storage_bucket": "ydwborder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392419754101:android:206be1ae123ed01ad0783c",
+        "android_client_info": {
+          "package_name": "com.example.ydw_border"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsI_9FA8ju7h8jRQE9kXffpbetITSUKe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
