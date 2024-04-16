@@ -5,12 +5,13 @@ import 'package:ydw_border/screen/home_page.dart';
 import 'package:ydw_border/screen/profile_page.dart';
 
 class DrawerWidget extends ConsumerWidget {
-  const DrawerWidget({Key? key}) : super(key: key);
+  const DrawerWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final useremail = ref.read(userEmailProvider);
-    final username = ref.read(userNameProvider);
+    // userEmailProvider와 userNameProvider의 값 가져오기
+    final username = ref.read(userInfoProvider).value!.name;
+    final useremail = ref.read(userInfoProvider).value!.email;
 
     const imageurl = 'assets/images/kfjungle.png';
 

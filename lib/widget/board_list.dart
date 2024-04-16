@@ -24,10 +24,14 @@ class _BoardListState extends State<BoardList> {
   }
 
   void _loadItems() async {
-    final url = Uri.parse('http://192.168.1.98:3000/all_board');
+    final url = Uri.parse('http://192.168.1.98:3000/all_board?page=1&limit=2');
 
     try {
       final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        print(response.body);
+      }
 
       if (response.statusCode >= 400) {
         setState(() {
@@ -85,8 +89,10 @@ class _BoardListState extends State<BoardList> {
       });
     } catch (error) {
       setState(() {
-        _error = 'Something went wrong! Please try again later.';
+        _error = error.toString();
       });
+
+      print(_error);
     }
   }
 

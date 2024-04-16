@@ -43,17 +43,8 @@ class LoginPageState extends ConsumerState<LoginPage> {
       Map<String, dynamic> data = json.decode(response.body);
       String accessToken = data['accessToken'];
       ref.read(tokenProvider.notifier).state = accessToken;
+      ref.watch(userInfoProvider);
 
-      // userInfoProvider로부터 userInfo 가져오기
-      final AsyncValue<UserInfo> userInfo = ref.watch(userInfoProvider);
-
-      if (userInfo is AsyncData) {
-        // userEmailProvider 및 userNameProvider에 userInfo 값 할당
-        ref.read(userEmailProvider.notifier).state = userInfo.value!.email;
-        ref.read(userNameProvider.notifier).state = userInfo.value!.name;
-      }
-
-      // print(token);
       if (context.mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
