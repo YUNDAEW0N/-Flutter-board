@@ -1,9 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+
 import 'package:ydw_border/models/board_item.dart';
 import 'package:http/http.dart' as http;
+
 import 'dart:convert';
+
+import 'package:ydw_border/screen/comment_page.dart';
 
 class BoardList extends StatefulWidget {
   const BoardList({super.key});
@@ -24,7 +28,7 @@ class _BoardListState extends State<BoardList> {
   }
 
   void _loadItems() async {
-    final url = Uri.parse('http://192.168.1.98:3000/all_board?page=1&limit=2');
+    final url = Uri.parse('http://192.168.1.98:3000/all_board?page=1&limit=4');
 
     try {
       final response = await http.get(url);
@@ -55,16 +59,16 @@ class _BoardListState extends State<BoardList> {
 
       final List<dynamic> items = listData['items']; // 'items' 배열 추출
 
-      for (final itemData in items) {
+      for (final data in items) {
         // 이미지 데이터 확인
-        final photoData = itemData['photo'];
+        final photoData = data['photo'];
         Uint8List? photoBytes;
         if (photoData != null) {
           photoBytes = base64Decode(photoData);
         }
 
         // 시간 문자열을 날짜와 시간으로 분리
-        String dateString = itemData['createdAt'];
+        String dateString = data['createdAt'];
         String datePart = dateString.split('T')[0];
         String timePart = dateString.split('T')[1].replaceAll('Z', '');
         List<String> timeComponents = timePart.split(':');
@@ -74,10 +78,11 @@ class _BoardListState extends State<BoardList> {
         // BoardItem 객체 생성하여 loadedItems에 추가
         loadedItems.add(
           BoardItem(
-            username: itemData['id'].toString(),
-            body: itemData['description'],
+            postId: data['id'],
+            username: data['user']['username'],
+            body: data['description'],
             date: '$datePart $hour:$minute',
-            like: itemData['like'],
+            like: data['like'],
             image: photoBytes, // 이미지 데이터 추가
           ),
         );
@@ -98,6 +103,13 @@ class _BoardListState extends State<BoardList> {
 
   @override
   Widget build(BuildContext context) {
+    void _showCommentPage(BuildContext context, int postId) {
+      showDialog(
+        context: context,
+        builder: (context) => CommentPage(postId: postId),
+      );
+    }
+
     const imageurl = 'assets/images/kfjungle.png';
 
     Widget content = const Center(
@@ -115,71 +127,59 @@ class _BoardListState extends State<BoardList> {
         itemCount: _boardItems.length,
         itemBuilder: (context, index) {
           final item = _boardItems[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-            child: Card(
-              elevation: 4,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CircleAvatar(
-                    backgroundImage: AssetImage(imageurl),
+          return Card(
+            margin: const EdgeInsets.all(8),
+            elevation: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundImage: AssetImage(imageurl), // 프로필 이미지
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(item.username),
-                              Text(item.date),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24),
-                          child: Text(item.body),
-                        ),
-                        Container(
-                          height: 200, // 이미지 미리보기를 위한 높이 설정
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey), // 테두리 추가
-                          ),
-                          child: item.image != null
-                              ? Image.memory(
-                                  item.image!,
-                                  fit: BoxFit.cover,
-                                )
-                              : const Center(
-                                  child: Icon(Icons.image),
-                                ),
-                        ),
-                        ButtonBar(
-                          alignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                // Implement like functionality
-                              },
-                              icon: const Icon(Icons.thumb_up),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                // Implement comment functionality
-                              },
-                              icon: const Icon(Icons.comment),
-                            ),
-                          ],
-                        ),
-                      ],
+                  title: Text(item.username), // 사용자 이름
+                  subtitle: Text(item.date),
+                ),
+                if (item.image != null)
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.memory(
+                        item.image!,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ],
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    item.body,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
+                ButtonBar(
+                  alignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // Implement like functionality
+                      },
+                      icon: const Icon(Icons.thumb_up),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _showCommentPage(context, item.postId);
+                      },
+                      icon: const Icon(Icons.comment),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         },

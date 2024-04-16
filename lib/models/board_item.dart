@@ -6,6 +6,7 @@ class BoardItem {
     required this.body,
     required this.date,
     required this.like,
+    required this.postId,
     this.image,
   });
 
@@ -14,4 +15,5 @@ class BoardItem {
   final String date;
   final int like;
   final Uint8List? image;
+  final int postId;
 }
