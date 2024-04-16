@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ydw_border/screen/login_page.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:ydw_border/route/login_page.dart';
-import 'package:ydw_border/route/signup_page.dart';
-import 'package:ydw_border/route/home_page.dart';
-
-import 'firebase/firebase_options.dart';
-
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  Fluttertoast.showToast(msg: 'App started');
+  // image_picker 플러그인 초기화
+  ImagePicker(); // ImagePicker 객체를 생성하여 플러그인 초기화
+
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
   );
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Board',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupPage(),
-      },
+      title: 'Borad',
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 147, 229, 250),
+          brightness: Brightness.dark,
+          surface: const Color.fromARGB(255, 42, 51, 59),
+        ),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
+      ),
+      home: const LoginPage(),
     );
   }
 }
