@@ -13,14 +13,14 @@ import 'dart:convert';
 
 import 'package:ydw_border/screen/comment_page.dart';
 
-class BoardList extends ConsumerStatefulWidget {
-  const BoardList({super.key});
+class MyBoardList extends ConsumerStatefulWidget {
+  const MyBoardList({super.key});
 
   @override
-  BoardListState createState() => BoardListState();
+  MyBoardListState createState() => MyBoardListState();
 }
 
-class BoardListState extends ConsumerState<BoardList> {
+class MyBoardListState extends ConsumerState<MyBoardList> {
   List<BoardItem> _boardItems = [];
   var _isLoading = true;
   String? _error;
@@ -32,10 +32,19 @@ class BoardListState extends ConsumerState<BoardList> {
   }
 
   void _loadItems() async {
-    final url = Uri.parse('http://192.168.1.98:3000/all_board?page=1&limit=4');
+    final url =
+        Uri.parse('http://192.168.1.98:3000/boards/my_boards?page=1&limit=4');
+
+    final token = ref.read(tokenProvider.notifier).state;
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         print(response.body);
@@ -137,16 +146,6 @@ class BoardListState extends ConsumerState<BoardList> {
     }
   }
 
-  void _likebutton(int index, int postId) async {
-    final String token = ref.read(tokenProvider.notifier).state;
-
-    await PushLikeService.pushLike(postId, token);
-
-    setState(() {
-      _boardItems[index].like++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     void _showCommentPage(BuildContext context, int postId) {
@@ -212,9 +211,7 @@ class BoardListState extends ConsumerState<BoardList> {
                   alignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        _likebutton(index, item.postId);
-                      },
+                      onPressed: () {},
                       icon: Row(
                         children: [
                           const Icon(Icons.thumb_up),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydw_border/screen/login_page.dart';
 import 'package:ydw_border/widget/drawer.dart';
+import 'package:ydw_border/widget/myboard_list.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,7 +16,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('마이 페이지'),
+        title: const Text('나의 게시글'),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {
@@ -43,9 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: const Center(
-        child: Text('임시'),
-      ),
+      body: const MyBoardList(),
     );
   }
 }

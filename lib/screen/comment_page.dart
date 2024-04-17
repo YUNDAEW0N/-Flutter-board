@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ydw_border/api/deletecomment.dart';
-import 'package:ydw_border/api/getcomment.dart';
-import 'package:ydw_border/api/sendcomment.dart';
+import 'package:ydw_border/api/delete_comment.dart';
+import 'package:ydw_border/api/get_comment.dart';
+import 'package:ydw_border/api/send_comment.dart';
 import 'package:ydw_border/models/comment_item.dart';
 import 'package:ydw_border/provider/token_provider.dart';
 import 'package:ydw_border/provider/userinfo_provider.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ydw_border/api/userinfo.dart';
+import 'package:ydw_border/api/user_info.dart';
 import 'package:ydw_border/models/user_info.dart';
 import 'package:ydw_border/provider/token_provider.dart';
 

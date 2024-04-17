@@ -13,7 +13,7 @@ class BoardItem {
   final String username;
   final String body;
   final String date;
-  final int like;
+  int like;
   final Uint8List? image;
   final int postId;
 }
